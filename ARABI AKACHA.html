@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechWorld - Votre portail technologique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .burger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            padding: 3rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Featured Technologies */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .tech-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        /* Articles Page */
+        .articles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Page */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Contact Page */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .tech-grid,
+            .articles-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .search-bar {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 50px;
+            font-size: 1rem;
+            width: 300px;
+            max-width: 90%;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">TechWorld</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Accueil</a></li>
+                <li><a href="#" onclick="showPage('articles')">Articles</a></li>
+                <li><a href="#" onclick="showPage('technologies')">Technologies</a></li>
+                <li><a href="#" onclick="showPage('about')">À propos</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <div class="burger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="container">
+                    <h1 class="fade-in">Bienvenue dans l'univers Tech</h1>
+                    <p class="fade-in">Découvrez les dernières innovations technologiques et restez à la pointe de l'actualité</p>
+                    <a href="#" class="cta-button fade-in" onclick="showPage('articles')">Découvrir nos articles</a>
+                </div>
+            </section>
+
+            <section class="container">
+                <h2 style="text-align: center; margin: 3rem 0 2rem;">Technologies en vedette</h2>
+                <div class="tech-grid">
+                    <div class="tech-card fade-in">
+                        <h3>Intelligence Artificielle</h3>
+                        <p>Explorez l'IA et ses applications révolutionnaires dans tous les secteurs.</p>
+                    </div>
+                    <div class="tech-card fade-in">
+                        <h3>Blockchain</h3>
+                        <p>Comprenez la technologie qui transforme la finance et bien plus encore.</p>
+                    </div>
+                    <div class="tech-card fade-in">
+                        <h3>Internet des Objets</h3>
+                        <p>Découvrez comment l'IoT connecte notre monde physique au numérique.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Articles Page -->
+        <div id="articles" class="page">
+            <div class="container">
+                <h1>Nos Articles</h1>
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Rechercher un article..." onkeyup="searchArticles(this.value)">
+                </div>
+                <div class="articles-container" id="articles-list">
+                    <article class="article-card">
+                        <div class="article-header">
+                            <h2>L'avenir de l'Intelligence Artificielle</h2>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">Publié le 8 juin 2025 • 5 min de lecture</div>
+                            <p>L'IA générative transforme notre façon de travailler et créer. Découvrez les dernières avancées et leurs implications pour l'avenir.</p>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-header">
+                            <h2>Cybersécurité en 2025</h2>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">Publié le 5 juin 2025 • 7 min de lecture</div>
+                            <p>Les menaces cyber évoluent constamment. Apprenez à protéger vos données et systèmes avec les meilleures pratiques actuelles.</p>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-header">
+                            <h2>Web3 et décentralisation</h2>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">Publié le 2 juin 2025 • 6 min de lecture</div>
+                            <p>Le Web3 promet un internet décentralisé. Explorez les technologies qui redéfinissent notre expérience en ligne.</p>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-header">
+                            <h2>Réalité Virtuelle et Métavers</h2>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">Publié le 30 mai 2025 • 8 min de lecture</div>
+                            <p>La VR et le métavers créent de nouveaux mondes d'interactions. Découvrez leurs applications pratiques et leur potentiel.</p>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-header">
+                            <h2>Informatique Quantique</h2>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">Publié le 28 mai 2025 • 10 min de lecture</div>
+                            <p>L'ordinateur quantique révolutionne le calcul. Comprenez cette technologie fascinante et ses applications futures.</p>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-header">
+                            <h2>5G et connectivité</h2>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">Publié le 25 mai 2025 • 4 min de lecture</div>
+                            <p>La 5G transforme notre connectivité. Explorez ses avantages et les nouvelles possibilités qu'elle offre.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technologies Page -->
+        <div id="technologies" class="page">
+            <div class="container">
+                <h1>Technologies</h1>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h3>🤖 Intelligence Artificielle</h3>
+                        <p>Machine Learning, Deep Learning, NLP, Computer Vision - L'IA transforme chaque industrie avec des algorithmes toujours plus sophistiqués.</p>
+                    </div>
+                    <div class="tech-card">
+                        <h3>🔗 Blockchain</h3>
+                        <p>Cryptomonnaies, Smart Contracts, DeFi - La blockchain révolutionne la finance et crée de nouvelles formes de confiance numérique.</p>
+                    </div>
+                    <div class="tech-card">
+                        <h3>☁️ Cloud Computing</h3>
+                        <p>AWS, Azure, Google Cloud - Le cloud offre une infrastructure scalable et flexible pour toutes les entreprises.</p>
+                    </div>
+                    <div class="tech-card">
+                        <h3>🌐 Internet des Objets</h3>
+                        <p>Capteurs, dispositifs connectés, smart cities - L'IoT connecte le monde physique au numérique.</p>
+                    </div>
+                    <div class="tech-card">
+                        <h3>🔒 Cybersécurité</h3>
+                        <p>Protection des données, authentification, cryptographie - Sécuriser le monde numérique est plus crucial que jamais.</p>
+                    </div>
+                    <div class="tech-card">
+                        <h3>🥽 Réalité Virtuelle/Augmentée</h3>
+                        <p>VR, AR, métavers - Ces technologies créent de nouvelles expériences immersives et interactives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="container">
+                <div class="about-content">
+                    <h1>À propos de TechWorld</h1>
+                    <p style="font-size: 1.1rem; margin: 2rem 0;">TechWorld est votre source de référence pour rester informé des dernières innovations technologiques. Notre mission est de démocratiser l'accès à l'information tech et d'accompagner les professionnels dans leur veille technologique.</p>
+                    
+                    <h2 style="margin: 3rem 0 2rem;">Notre équipe</h2>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="avatar">AM</div>
+                            <h3>Alex Martin</h3>
+                            <p>Rédacteur en Chef</p>
+                            <p>Expert en IA et machine learning</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="avatar">SL</div>
+                            <h3>Sophie Laurent</h3>
+                            <p>Spécialiste Cybersécurité</p>
+                            <p>10 ans d'expérience en sécurité IT</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="avatar">JD</div>
+                            <h3>Jean Dupont</h3>
+                            <p>Analyste Blockchain</p>
+                            <p>Pionnier des cryptomonnaies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Contactez-nous</h1>
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TechWorld. Tous droits réservés. | Restez connectés à l'innovation</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.querySelector('.nav-links').classList.remove('active');
+        }
+
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Search functionality
+        function searchArticles(query) {
+            const articles = document.querySelectorAll('.article-card');
+            articles.forEach(article => {
+                const title = article.querySelector('h2').textContent.toLowerCase();
+                const content = article.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(query.toLowerCase()) || content.includes(query.toLowerCase())) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = query ? 'none' : 'block';
+                }
+            });
+        }
+
+        // Form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Merci pour votre message ! Nous vous répondrons bientôt.');
+            event.target.reset();
+        }
+
+        // Smooth animations on scroll
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.tech-card, .article-card, .team-member').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            observeElements();
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (!nav.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
